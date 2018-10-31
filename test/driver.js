@@ -23,8 +23,8 @@ class Driver {
     this.proc = fork('./lib/tsc-watch.js', params, { stdio: 'inherit' });
 
     this.subscriptions.forEach((handler, evName) =>
-      this.proc.on('message', event => evName === event
-        ? handler(event)
+      this.proc.on('message', ([event, ...data]) => evName === event
+        ? handler(event, ...data)
         : noop()));
 
     return this;
